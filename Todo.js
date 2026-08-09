@@ -10,41 +10,48 @@ function saveTasks() {
 }
 
 function renderTasks() {
-    taskList.innerHTML = "";
+     taskList.innerHTML = "";
 
     if (tasks.length === 0) {
         emptyMessage.style.display = "block";
+        return;
     } else {
         emptyMessage.style.display = "none";
     }
 
     tasks.forEach((task, index) => {
+
         const li = document.createElement("li");
 
-        const span = document.createElement("span");
-        span.textContent = task.text;
+        const taskNumber = document.createElement("span");
+        taskNumber.textContent = (index + 1) + ". ";
+
+        const taskText = document.createElement("span");
+        taskText.textContent = task.text;
 
         if (task.completed) {
-            span.style.textDecoration = "line-through";
+            taskText.classList.add("completed");
         }
 
-        span.onclick = () => {
-            tasks[index].completed = !tasks[index].completed;
+        taskText.onclick = () => {
+            task.completed = !task.completed;
             saveTasks();
             renderTasks();
         };
 
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "Delete";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.classList.add("delete-btn");
 
-        delBtn.onclick = () => {
+        deleteBtn.onclick = () => {
             tasks.splice(index, 1);
             saveTasks();
             renderTasks();
         };
 
-        li.appendChild(span);
-        li.appendChild(delBtn);
+        li.appendChild(taskNumber);
+        li.appendChild(taskText);
+        li.appendChild(deleteBtn);
 
         taskList.appendChild(li);
     });
