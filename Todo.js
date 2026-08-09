@@ -23,9 +23,17 @@ function renderTasks() {
 
         const li = document.createElement("li");
 
-        const taskNumber = document.createElement("span");
-        taskNumber.textContent = (index + 1) + ". ";
+        // Task number
+        const number = document.createElement("span");
+        number.textContent = (index + 1) + ".";
+        number.classList.add("task-number");
 
+        // Checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+
+        // Task text
         const taskText = document.createElement("span");
         taskText.textContent = task.text;
 
@@ -33,27 +41,31 @@ function renderTasks() {
             taskText.classList.add("completed");
         }
 
-        taskText.onclick = () => {
-            task.completed = !task.completed;
+        // When checkbox is clicked
+        checkbox.addEventListener("change", function () {
+            task.completed = checkbox.checked;
 
             if (task.completed) {
                 alert("Task Completed: " + task.text);
             }
+
             saveTasks();
             renderTasks();
-        };
+        });
 
+        // Delete button
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.classList.add("delete-btn");
 
-        deleteBtn.onclick = () => {
+        deleteBtn.addEventListener("click", function () {
             tasks.splice(index, 1);
             saveTasks();
             renderTasks();
-        };
+        });
 
-        li.appendChild(taskNumber);
+        li.appendChild(number);
+        li.appendChild(checkbox);
         li.appendChild(taskText);
         li.appendChild(deleteBtn);
 
