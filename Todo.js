@@ -35,6 +35,10 @@ function renderTasks() {
 
         taskText.onclick = () => {
             task.completed = !task.completed;
+
+            if (task.completed) {
+                alert("Task Completed: " + task.text);
+            }
             saveTasks();
             renderTasks();
         };
